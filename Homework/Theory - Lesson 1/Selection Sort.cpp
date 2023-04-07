@@ -2,24 +2,22 @@
 #include <vector>
 #include <random>
 
-int minElement(std::vector<int>& v, int size)
+void swapMinElement(std::vector<int>& v, int start = 0)
 {
-	int indMin = 0;
+	int indMin = start;
 
-	for (int i = 1; i < v.size(); ++i)
+	for (int i = start; i < v.size(); ++i)
 		if (v[i] < v[indMin])
 			indMin = i;
-	return indMin;
+
+	if (indMin != start)
+		std::swap(v[indMin], v[start]);
 }
 
-void selectionSort(std::vector<int>& v) // add index ranges for each pass
+void selectionSort(std::vector<int>& v)
 {
-	int size = v.size();
-
-	for (int i = 0; i < size; ++i)
-	{
-		std::swap(v[minElement(v)], ;
-	}
+	for (int i = 0; i < v.size(); ++i)
+		swapMinElement(v, i);
 }
 
 int main()
@@ -43,7 +41,7 @@ int main()
 
 	selectionSort(v);
 
-	std::cout << "\n\nVector sorted:\n";
+	std::cout << "\n\nVector sorted with selection sort:\n";
 	for (int i = 0; i < v.size(); ++i)
 		std::cout << v[i] << ' ';
 }

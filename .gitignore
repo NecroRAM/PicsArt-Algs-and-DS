@@ -1,0 +1,7 @@
+*.vs
+*.json
+*.vsidx
+*.lock
+*.db
+*.wsuo
+*.ipch
