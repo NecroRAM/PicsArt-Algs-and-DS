@@ -6,11 +6,13 @@ int main() //wip
 {
 	std::vector<int> v{ 2, 7, 11, 15 };
 	int target;
-	std::cin >> target;
 	std::map<int, int> m;
-	int size = v.size();
-	for (int i = 0; i < size; ++i)
-		m.insert(target - v[i], i);
+	std::cin >> target;
+	for (int i = 0; i < v.size(); ++i)
+	{
+		if (!m.count(target - v[i]))
+			m.insert(target - v[i], i);
+	}
 
 	
 	/*for (auto x : m)
