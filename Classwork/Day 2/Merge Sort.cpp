@@ -1,31 +1,31 @@
 #include <iostream>
 #include <vector>
 
-void merge(std::vector<int>& v, int low, int mid, int high)
+void merge(std::vector<int>& v, int left, int mid, int right)
 {
-	int sizeLeft = mid - low + 1;
-	int sizeRight = high - mid;
-	std::vector<int> left(sizeLeft), right(sizeRight);
+	int sizeLeft = mid - left + 1;
+	int sizeRight = right - mid;
+	std::vector<int> leftPart(sizeLeft), rightPart(sizeRight);
 
 	for (int i = 0; i < sizeLeft; ++i)
-		left[i] = v[low + i]; // prev: v[p + i - 1]
+		leftPart[i] = v[left + i]; // prev: v[p + i - 1]
 	for (int i = 0; i < sizeRight; ++i)
-		left[i] = v[mid + i];
-	for (int k = low, i = 0, j = 0; low < high; ++low)
-		if (left[i] <= right[j])
-			v[k] = left[i++];
+		leftPart[i] = v[mid + i];
+	for (int k = left, i = 0, j = 0; left < right; ++left)
+		if (leftPart[i] <= rightPart[j])
+			v[k] = leftPart[i++];
 		else
-			v[k] = right[j++];
+			v[k] = rightPart[j++];
 }
 
-void mergeSort(std::vector<int>& v, int p, int r)
+void mergeSort(std::vector<int>& v, int left, int right)
 {
-	if (p < r)
+	if (left < right)
 	{
-		int q = (p + r) / 2;
-		mergeSort(v, p, q);
-		mergeSort(v, q + 1, r);
-		merge(v, p, q, r);
+		int q = (left + right) / 2;
+		mergeSort(v, left, q);
+		mergeSort(v, q + 1, right);
+		merge(v, left, q, right);
 	}
 }
 
