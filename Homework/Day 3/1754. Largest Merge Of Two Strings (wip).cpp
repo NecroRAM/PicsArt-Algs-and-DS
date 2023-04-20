@@ -1,3 +1,5 @@
+
+// use merge sort principle (add 2 whiles to append the remaining part of the string
 class Solution {
 public:
     string largestMerge(string word1, string word2) 

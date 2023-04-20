@@ -1,0 +1,1 @@
+// i - count and to the left everything is unique and sorted

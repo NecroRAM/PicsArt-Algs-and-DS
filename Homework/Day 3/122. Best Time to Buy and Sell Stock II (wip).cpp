@@ -3,6 +3,7 @@
 
 int maxProfit(std::vector<int>& prices)
 {
+	// try same way as max subarray sum
     int profit = 0, buy = 0, size = prices.size() - 1, sell = size;
     for (int i = 0; i <= size; ++i)
     {

@@ -1,0 +1,1 @@
+//use counting sort method, array index is type of stone
