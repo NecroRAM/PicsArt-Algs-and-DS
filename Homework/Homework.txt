@@ -1,25 +1,17 @@
-1 Sun - implement sorting algs
+1 - implement sorting algs
 
-2 Wed - 9, 13, 26, 35, 118, 119, 922, 1470, 1979, 1991
+2 - 9, 13, 26, 35, 118, 119, 922, 1470, 1979, 1991
 Show if merge+bubble+insertion sort is stable.
 Find size of arr starting from which merge becomes faster than insertion (local)
 
-3 Sun - 74, 121, 152, 240, 169
+3 - 74, 121, 152, 240, 169
 
-<<<<<<< HEAD
 4 - implement Randomized QuickSort, check out chessboard of coins problem
 912
-=======
-4 Wed - implement Randomized QuickSort, check out chessboard of coins problem
-922
->>>>>>> 3a0ef7bb995fa590336e3dace6ec4096409d8d80
 
-5 Sun - [80, 167, 56, 1539, 915], 540, 168, 238, 561
+5 - 540, 168, 238, 561
 
-<<<<<<< HEAD
 6 - 
-=======
->>>>>>> 3a0ef7bb995fa590336e3dace6ec4096409d8d80
 on Sunday 23.04 (data structures):
 1) Dynamic array
 2) Forward list
