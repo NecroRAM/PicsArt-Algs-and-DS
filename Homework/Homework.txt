@@ -7,14 +7,17 @@ Find size of arr starting from which merge becomes faster than insertion (local)
 3 - 74, 121, 152, 240, 169
 
 4 - implement Randomized QuickSort, check out chessboard of coins problem
-922
+912
 
 5 - 540, 168, 238, 561
 
-on Sunday (data structures):
+6 - 
+on Sunday 23.04 (data structures):
 1) Dynamic array
 2) Forward list
 3) Linked list
 4) Self-organizing linked list
 5) Stack
 6) Queue
+
+leet 912
