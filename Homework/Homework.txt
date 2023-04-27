@@ -11,13 +11,23 @@ Find size of arr starting from which merge becomes faster than insertion (local)
 
 5 - 540, 168, 238, 561
 
-6 - 
-on Sunday 23.04 (data structures):
-1) Dynamic array
-2) Forward list
-3) Linked list
-4) Self-organizing linked list
-5) Stack
-6) Queue
+6 - on Sunday 23.04 (data structures):
 
-leet 912
+	Implementation of the following DS:
+		Stack
+		Queue
+		Dynamic array
+		Singly-linked list
+		Doubly-linked list
+		Self-organizing linked list
+
+	additional functionality for singly-linked list:
+		reverse
+		merge
+		sort
+
+	For sorting algorithm take insertion sort
+
+	+ Cormen chapter: 10
+
+	leet 912
