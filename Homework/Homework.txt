@@ -31,3 +31,7 @@ Find size of arr starting from which merge becomes faster than insertion (local)
 	+ Cormen chapter: 10
 
 	leet 912
+	
+	7 - 86, 147, 206, 2390
+	finish Singly-linked list, Queue, Stack
+	+234, 237, 61, 876, 1290, 225, 232
