@@ -1,5 +1,6 @@
 #include <iostream>
 #include <utility>
+#include <stack>
 
 // return 2 independent heads
 class Node
