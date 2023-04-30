@@ -1,40 +1,57 @@
 1 - implement sorting algs
 
-2 - 9, 13, 26, 35, 118, 119, 922, 1470, 1979, 1991
+2 - 
+Problems at class:
+	1, 31, 34, 33, 136, 189, 48
+Homework:
+	35, 26, 118, 119, 1470, 922, 1979, 1991, 9, 13
+	
 Show if merge+bubble+insertion sort is stable.
 Find size of arr starting from which merge becomes faster than insertion (local)
 
-3 - 74, 121, 152, 240, 169
+3 - 
+	53(Maximum subarray sum can be solved as the problem with stocks, assuming you already got differences between stocks.
+So imagine you have already diffed results, and you should find the maximum profit. The solution at the class without any indices is a valid solution for this problem. Notice that in the problem 121(best time to buy and sell stock) we found the solution without subtracting the values)). Analyse and keep track of each iteration.  Follow the both algorithms step by step on the paper. Both are very important.
+	153
+	122 - this problem is NOT the same as maximum subarray problem.
+	771
+	1768
+	2363
+	1754
+	75
 
 4 - implement Randomized QuickSort, check out chessboard of coins problem
 912
 
-5 - 540, 168, 238, 561
+5 - 
+Problems at class: 
+	80, 167, 56, 1539, 915
+Homework: 
+	540, 168, 238, 561
 
 6 - on Sunday 23.04 (data structures):
 
-	Implementation of the following DS:
-		Stack
-		Queue
-		Dynamic array
-		Singly-linked list
-		Doubly-linked list
-		Self-organizing linked list
+Implementation of the following DS:
+	Stack
+	Queue
+	Dynamic array
+	Singly-linked list
+	Doubly-linked list
+	Self-organizing linked list
 
-	additional functionality for singly-linked list:
-		reverse
-		merge
-		sort
+additional functionality for singly-linked list:
+	reverse
+	merge
+	sort
 
-	For sorting algorithm take insertion sort
+For sorting algorithm take insertion sort
 
-	+ Cormen chapter: 10
++ Cormen chapter: 10
 
-	leet 912
+leet 912
 	
+
 	7 - 86, 147, 206, 2390
 	finish Singly-linked list, Queue, Stack
 	+234, 237, 61, 876, 1290, 225, 232
 	
-	8 -
-	258, 1046, 81, 20

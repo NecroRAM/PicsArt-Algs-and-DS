@@ -12,11 +12,12 @@ private:
 	int64_t _num_of_elements;
 
 public:
-	explicit Queue(const size_t size = 0)
+	explicit Queue(const size_t size = 10)
 		: _ptr(std::make_unique<T[]>(_size))
 		, _start(0)
 		, _size(size)
 		, _end(0)
+		, _num_of_elements(0)
 	{
 		std::cout << "Queue created\n";
 	}
@@ -27,6 +28,7 @@ public:
 		, _start(0)
 		, _size(values.size())
 		, _end(-1)
+		, _num_of_elements(0
 	{
 		for (auto el : values)
 			_ptr[++_end] = el;
@@ -34,12 +36,13 @@ public:
 	}
 
 	// variadic constructor
-	template <typename... Us>
+	//template <typename... Us>
 	explicit Queue(Us... args)
 		: _ptr(std::make_unique<T[]>(sizeof...(args)))
 		, _start(0)
 		, _size(sizeof...(args))
 		, _end(-1)
+		, _num_of_elements(0)
 	{
 		((void) ::new (static_cast<void*>(std::addressof(_ptr[++_end]))) T(std::forward<Us>(args)), ...);
 		std::cout << "Queue created through the variadic constructor\n";
@@ -52,66 +55,62 @@ public:
 
 	int enqueue(const T& element)
 	{
-		if (_end + 1 >= _size)
+		if (end + 1 > _size)
 		{
-			if (_start == 0)
-			{
-				std::cout << "Error: queue is full\n";
-				return 0;
-			}
-			else
-			{
-				_end = _ptr.get();
-				_ptr[end] = element;
-				++_num_of_elements;
-				return 1;
-			}
-		}
-		else if (_end + 1 != _start)
-		{
-			*(_ptr.get() + _end++ + 1) = element;
+			auto temp = std::make_unique<T[]>(2 * _size);
+			std::copy(_ptr.get(), _ptr.get() + _size, temp);
+			_ptr = temp;
+			_size *= 2;
+			++_end;
 			++_num_of_elements;
-			return 1;
+			std::cout << "Queue relocated\n";
 		}
+		else
+			*(_ptr.get() + _size + 1) = element;
+		++_size;
 	}
-	// WIP v
+
 	T dequeue()
 	{
-		if !(_start > 0)
+		if !(_start < _end) 
+		{
+			--_num_of_elements;
 			return _ptr[_start++];
+		}
 		else
 			std::cout << "Error: queue is empty\n";
 	}
 
 	T top() const
 	{
-		if (_start > -1)
+		if (_start < end)
 			return _ptr[_start];
+		else
+			std::cout << "Error: queue is empty\n";
 	}
 
 	size_t size() const
 	{
-		return _size;
+		return _num_of_elements;
 	}
 
 	int64_t top_index() const
 	{
-		return _start;
-	}
-
-	bool full() const
-	{
-		return _start + 1 >= _size;
+		if (_num_of_elements)
+			return _start;
+		else
+			std::cout << "Error: queue is empty\n";
 	}
 
 	bool empty() const
 	{
-		return _start == -1;
+		return _start == _end;
 	}
 
 	void clear()
 	{
-		_start = -1;
+		_end = _start;
+		_num_of_elements = 0;
 	}
 };
 
@@ -121,7 +120,7 @@ int main()
 		Queue<int> queue{ 1, 4, 3, 6 };
 		std::cout << queue.size() << '\n' << queue.top_index() << '\n';
 
-		while (queue.top_index() >= 0)
+		while (queue.top_index() <= queue.size() - 1)
 			std::cout << queue.dequeue() << '\n';
 	}
 	{
@@ -129,12 +128,12 @@ int main()
 		std::cout << queue.size() << '\n' << queue.top_index() << '\n';
 
 
-		while (queue.top_index() >= 0)
+		while (queue.top_index() <= queue.size() - 1)
 			std::cout << queue.dequeue() << '\n';
 		int i = 0;
-		while (!queue.full())
+		while (i <= queue.size() + 1)
 			queue.enqueue(i++);
-		while (queue.top_index() >= 0)
+		while (queue.top_index() <= queue.size() - 1)
 			std::cout << queue.dequeue() << '\n';
 	}
 
