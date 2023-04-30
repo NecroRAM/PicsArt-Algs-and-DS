@@ -35,3 +35,6 @@ Find size of arr starting from which merge becomes faster than insertion (local)
 	7 - 86, 147, 206, 2390
 	finish Singly-linked list, Queue, Stack
 	+234, 237, 61, 876, 1290, 225, 232
+	
+	8 -
+	258, 1046, 81, 20
