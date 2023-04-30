@@ -55,3 +55,6 @@ leet 912
 	finish Singly-linked list, Queue, Stack
 	+234, 237, 61, 876, 1290, 225, 232
 	
+	
+	8 -
+	258, 1046, 81, 20
