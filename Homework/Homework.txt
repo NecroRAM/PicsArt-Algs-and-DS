@@ -50,7 +50,12 @@ For sorting algorithm take insertion sort
 
 leet 912
 	
-7 - 
-	86, 147, 206, 2390
-finish Singly-linked list, Queue, Stack
-	234, 237, 61, 876, 1290, 225, 232
+
+	7 - 86, 147, 206, 2390
+	finish Singly-linked list, Queue, Stack
+	+234, 237, 61, 876, 1290, 225, 232
+	
+	
+	8 -
+	258, 1046, 81, 20, 21 (iter and recursive), 25, 92, 148, 
+	1669, 1721, 143, 328, 203, 19
