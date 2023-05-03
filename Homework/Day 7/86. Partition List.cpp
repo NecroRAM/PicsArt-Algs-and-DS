@@ -21,39 +21,30 @@ void printSLL(ListNode* head)
 
 ListNode* partition(ListNode* head, int x)
 {
-	ListNode* less = head;
-	ListNode* greater = head;
-	ListNode* lessHead = head;
-	ListNode* greatHead = head;
-	ListNode* cur = head;
-	ListNode* curTmp = head;
+    ListNode less;
+    ListNode greater;
 
-	bool firstLargerFound = false;
+    ListNode* lessptr = &less;
+    ListNode* greaterptr = &greater;
 
-	while (cur && cur->next)
+
+	while (head)
 	{
-		if (cur->next->val < x)
+		if (head->val < x)
 		{
-			less->next = cur->next;
-			less = cur->next;
+			lessptr->next = head;
+			lessptr = lessptr->next;
 		}
 		else
 		{
-			if (!firstLargerFound)
-			{
-				greatHead = cur;
-				firstLargerFound = true;
-			}
-			greater->next = cur->next;
-			greater = cur->next;
+			greaterptr->next = head;
+			greaterptr = greaterptr->next;
 		}
-		curTmp = cur;
-		cur = head->next;
-	}
-	less->next = greatHead;
-	curTmp->next = nullptr;
-
-	return lessHead;
+		head = head->next;
+    }
+	greaterptr->next = nullptr;
+	lessptr->next = greater.next;
+	return less.next;
 }
 
 int main()
@@ -65,10 +56,6 @@ int main()
 	ListNode n2(4, &n3);
 	ListNode n1(1, &n2);
 	ListNode* head = &n1;
-
-	//std::cout << head->next;
-
-	//printSLL(head);
 
 	printSLL(partition(head, 3));
 }
