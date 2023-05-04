@@ -1,5 +1,5 @@
 string removeStars(string s) 
-{
+{ // use a new string
 	std::stack<char> stack;
 
 	for (auto it = s.begin(); it != s.end(); ++it)

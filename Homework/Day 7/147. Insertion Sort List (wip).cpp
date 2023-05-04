@@ -50,6 +50,26 @@ ListNode* insertionSortList(ListNode* head)
 		std::cout << '\n';
 	}
 	return head;
+	
+	// while (curr)
+	// {
+		// if (cur->next and cur->next_val < cur->val)
+		// {
+			// while (prev->next and prev->next ->val < cur->next->val)
+			// {
+				// prev = prev->next;
+			// }
+			// tmp = prev->next;
+			// prev->next = cur->next;
+			// cur->next = cur->next->next;
+			// prev->next->next = tmp;
+			// prev = start;
+		// }
+		// else
+		// {
+			// cur = cur->next;
+		// }
+	// }
 }
 
 int main()

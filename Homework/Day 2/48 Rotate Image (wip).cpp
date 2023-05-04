@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
-
+// swap and reverse
 using matrix = std::vector<std::vector<int>>;
 
 int digNum(int n)
