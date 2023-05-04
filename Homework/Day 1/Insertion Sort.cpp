@@ -8,17 +8,17 @@
 
 void insertionSort(std::vector<int>& v)
 {
-	int k = 0; // C1 = 1
-	int i = 0; // C2 = 1
-	for (int j = 1; j < v.size(); ++j)
+	int elBeingSorted = 0;
+	int elLeftInd = 0;
+	for (int i = 1; i < v.size(); ++i)
 	{
-		k = v[j]; // C3 = n - 1
-		i = j; // C4 = n - 1
+		elBeingSorted = v[i];
+		elLeftInd = i; 
 
-		while (--i >= 0 && v[i] > k) 
-			v[i + 1] = v[i]; 
-		
-		v[i + 1] = k;
+		while (--elLeftInd >= 0 && v[elLeftInd] > elBeingSorted)
+			v[elLeftInd + 1] = v[elLeftInd]; 				
+	 
+		v[elLeftInd + 1] = elBeingSorted;
 	}
 }
 
