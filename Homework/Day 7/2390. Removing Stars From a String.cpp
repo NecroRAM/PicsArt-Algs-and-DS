@@ -1,15 +1,13 @@
 string removeStars(string s) 
-{ // use a new string
+{ // use 2 strings instead of a stack
 	std::stack<char> stack;
 
-	for (auto it = s.begin(); it != s.end(); ++it)
+	for (char c : s)
 	{
-		if (*it == '*')
-		{
+		if (c == '*')
 			stack.pop();
-			continue;
-		}
-		stack.push(*it);
+		else
+			stack.push(c);
 	}
 	s.clear();
 	while (stack.size())
