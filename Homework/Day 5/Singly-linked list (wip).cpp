@@ -15,5 +15,29 @@ private:
 	};
 
 public:
+	ListNode* reverse(ListNode* head) 
+	{
+		ListNode* cur = head;
+		ListNode* prev = nullptr;
+		ListNode* next = nullptr;
 
+		while (cur)
+		{
+			next = cur->next;
+			cur->next = prev;
+			prev = cur;
+			cur = next;
+		}
+		
+		head = prev;
+	
+		return head;
+	}
+	
+	ListNode* push_front(int val)
+	{
+		ListNode newHead(val, next);
+		
+		return &newHead;
+	}
 };
