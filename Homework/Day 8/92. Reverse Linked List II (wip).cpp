@@ -1,46 +1,45 @@
 #include <iostream>
 #include "D:\Downloads\Courses\Algs and Data Structs\PicsArt Academy\PicsArt-Algs-and-DS\Homework\ListNode.cpp"
 
-//// Definition for singly-linked list.
-//struct ListNode {
-//    int val;
-//    ListNode *next;
-//    ListNode() : val(0), next(nullptr) {}
-//    ListNode(int x) : val(x), next(nullptr) {}
-//    ListNode(int x, ListNode *next) : val(x), next(next) {}
-//};
-
 ListNode* reverseBetween(ListNode* head, int left, int right)
 {
     int ind = 1;
     ListNode dummy(0, head);
-    ListNode* start = head, *tmp = head, *prev = head, *end = head;
+    ListNode* start = &dummy, * end = &dummy, * tempE = &dummy, * prev = &dummy, * cur = &dummy, * next = &dummy;
+    bool first = true;
 
-    while (++ind < left)
-        prev = prev->next;
-
-    end = prev->next;
-
-    while (++ind < right and end->next)
-        end = end->next;
-
-    tmp = prev->next;
-    prev->next = end->next;
-    end = end->next;
-    prev = tmp;
-    start = tmp->next;
-    tmp->next = end->next;
-    //std::cout << end->next->val << '\n';
-    end = end->next;
-
-    while (start != end)
+    while (ind <  left) // dummy-> 1 s2 3 4 e5 6
     {
-        tmp = start->next; // 1 2 3 4 5 6
-        start->next = prev;
-        prev = start;
-        start = tmp;
+        start = start->next;   
+        ++ind;
     }
-    
+
+    prev = end = tempE = start;
+    start = start->next;
+
+    while (ind <= right)
+    {
+        end = end->next;
+        ++ind;
+    }
+
+    prev->next = end;
+
+    while (start != tempE->next)
+    {
+        next = start->next;
+        if (first)
+        {
+            start->next = end->next;
+            first = false;
+        }
+        else
+        {
+            start->next = prev;
+        }
+        prev = start;
+        start = next;
+    }
     return head;
 } 
 
@@ -52,9 +51,9 @@ int main()
     ListNode n2(3, &n3);
     ListNode n1(2, &n2);
     ListNode n0(1, &n1);
-    ListNode* head = &n4;
+    ListNode* head = &n0;
 
     printList(head);
     std::cout << '\n';
-    printList(reverseBetween(head, 1, 2));
+    printList(reverseBetween(head, 2, 5));
 }
