@@ -5,42 +5,43 @@ ListNode* reverseBetween(ListNode* head, int left, int right)
 {
     int ind = 1;
     ListNode dummy(0, head);
-    ListNode* start = &dummy, * end = &dummy, * tempE = &dummy, * prev = &dummy, * cur = &dummy, * next = &dummy;
+    ListNode* tmp1 = &dummy, * tmp2 = &dummy, * prev = &dummy, * cur = &dummy, * next = &dummy;
     bool first = true;
 
-    while (ind <  left) // dummy-> 1 s2 3 4 e5 6
+    while (ind < left)
     {
-        start = start->next;   
+        tmp1 = tmp1->next;   
         ++ind;
     }
 
-    prev = end = tempE = start;
-    start = start->next;
+    cur = prev = tmp2 = next = tmp1;
+    cur = cur->next;
 
     while (ind <= right)
     {
-        end = end->next;
+        tmp2 = tmp2->next;
         ++ind;
     }
 
-    prev->next = end;
-
-    while (start != tempE->next)
+    prev->next = tmp2;
+    tmp1 = tmp2->next;
+    
+    while (cur != tmp1)
     {
-        next = start->next;
+        next = cur->next;
         if (first)
-        {
-            start->next = end->next;
+        {   
+            cur->next = tmp2->next;
             first = false;
         }
         else
         {
-            start->next = prev;
+            cur->next = prev;
         }
-        prev = start;
-        start = next;
+        prev = cur;
+        cur = next;
     }
-    return head;
+    return dummy.next;
 } 
 
 int main()

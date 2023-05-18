@@ -2,7 +2,7 @@
 #include <memory>
 
 template <typename T, typename... Us>
-class Stack
+class Vector
 {
 private:
 	std::unique_ptr<T[]> _ptr;
@@ -11,7 +11,7 @@ private:
 	size_t _size;
 
 public:
-	explicit Stack(const size_t size = 0)
+	explicit Vector(const size_t size = 0)
 		: _ptr(std::make_unique<T[]>(_size))
 		, _index(0)
 		, _size(size)
@@ -20,7 +20,7 @@ public:
 	}
 
 	// initializer list constructor
-	explicit Stack(std::initializer_list<T> values)
+	explicit Vector(std::initializer_list<T> values)
 		: _ptr(std::make_unique<T[]>(values.size()))
 		, _index(-1)
 		, _size(values.size())
@@ -32,7 +32,7 @@ public:
 
 	// variadic constructor
 	template <typename... Us>
-	explicit Stack(Us... args)
+	explicit Vector(Us... args)
 		: _ptr(std::make_unique<T[]>(sizeof...(args)))
 		, _index(-1)
 		, _size(sizeof...(args))
@@ -41,7 +41,7 @@ public:
 		std::cout << "Stack created through the variadic constructor\n";
 	}
 
-	~Stack()
+	~Vector()
 	{
 		std::cout << "Stack destroyed\n";
 	}
@@ -82,25 +82,9 @@ public:
 			std::cout << "Error: stack is empty\n";
 	}
 
-	T top() const
-	{
-		if (_index > -1)
-			return _ptr[_index];
-	}
-
 	size_t size() const
 	{
 		return _size;
-	}
-
-	int64_t top_index() const
-	{
-		return _index;
-	}
-
-	bool full() const
-	{
-		return _index + 1 >= _size;
 	}
 
 	bool empty() const
@@ -117,14 +101,14 @@ public:
 int main()
 {
 	{
-		Stack<int> stack{ 1, 4, 3, 6 };
+		Vector<int> stack{ 1, 4, 3, 6 };
 		std::cout << stack.size() << '\n' << stack.top_index() << '\n';
 
 		while (stack.top_index() >= 0)
 			std::cout << stack.pop() << '\n';
 	}
 	{
-		Stack<int> stack(7, 4, 3, 6);
+		Vector<int> stack(7, 4, 3, 6);
 		std::cout << stack.size() << '\n' << stack.top_index() << '\n';
 
 
