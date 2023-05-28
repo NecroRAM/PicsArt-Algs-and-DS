@@ -12,5 +12,14 @@ struct ListNode
         : val(x), next(nullptr) {}
 
 	ListNode(T x, ListNode* next) 
-        : val(x), next(next) {}	
+        : val(x), next(next) {}
+	
+	friend void printList(ListNode* head)
+	{
+		while (head)
+		{
+			std::cout << head->val;
+			head = head->next;
+		}
+	}
 };

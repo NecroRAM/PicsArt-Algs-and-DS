@@ -6,18 +6,22 @@ template <typename T>
 class SLL
 {
 private:
-	ListNode<T>* head;
-public:
-    /*SLL()
-        : head(nullptr)
-    {
-        std::cout << "default-constructed\n";
-    }*/
+	ListNode<T>* head = nullptr;
 
+public:
     SLL(const ListNode<T>* element = nullptr) 
     {
         if (element)
             this->head = new ListNode<T>(element->val, nullptr);
+    }
+
+    SLL(std::initializer_list<T> values)
+        : head(nullptr)
+    {
+        for (const T& val : values)
+        {
+            insert(val);
+        }
     }
 
     SLL(const SLL& other) 
@@ -57,21 +61,20 @@ public:
         }
     }
     
-    std::pair<SLL<T>, SLL<T>> split_in_half()
+
+    std::pair<SLL<T>, SLL<T>> split_in_half() const
     {
-        ListNode<T> dummy(0, this->head);
-        ListNode<T>* slow = &dummy, * fast = &dummy;
+        ListNode<T>* slow = head, * fast = head;
         SLL<T> first, second;
 
-        while (fast->next && fast->next->next)
+        while (fast && fast->next)
         {
+            first.insert(slow->val);
             fast = fast->next->next;
             slow = slow->next;
-            first.insert(slow->val);
         }
 
-        slow = slow->next;
-        if (fast->next)
+        if (fast)
         {
             first.insert(slow->val);
             slow = slow->next;
@@ -83,11 +86,9 @@ public:
             second.insert(slow->val);
             slow = slow->next;
         }
-        second.insert(slow->val);
 
         return std::make_pair(first, second);
     }
-
 
 	ListNode<T>* reverse()
 	{
@@ -144,14 +145,16 @@ public:
         return traverse->next;
     }
 
-
     ListNode<T>* insert(ListNode<T>* newNode = nullptr)
     {
         ListNode<T> dummy(0, head);
         ListNode<T>* traverse = &dummy;
         while (traverse->next)
             traverse = traverse->next;
-        traverse->next = (newNode ? new ListNode<T>(newNode->val, nullptr) : new ListNode<T>(0, nullptr));
+        if (traverse->next == head)
+            head = (newNode ? new ListNode<T>(newNode->val, nullptr) : new ListNode<T>(0, nullptr));
+        else
+            traverse->next = (newNode ? new ListNode<T>(newNode->val, nullptr) : new ListNode<T>(0, nullptr));
         return traverse->next;
     }
 
@@ -201,6 +204,7 @@ public:
         tmp = nullptr;
 
         while (cur)
+        {
             if (cur->next and cur->next->val < cur->val)
             {
                 while (prev->next and prev->next->val < cur->next->val)
@@ -213,24 +217,100 @@ public:
                 cur->next = cur->next->next;
                 prev->next->next = tmp;
                 prev = &dummy;
+                this->print();
             }
             else
                 cur = cur->next;
+            std::cout << '\n';
+        }
+    }
+
+    ListNode<T>* midpoint(ListNode<T>* first, ListNode<T>* last) const
+    {
+        ListNode<T>* slow = first, * fast = first;
+        while (fast && fast != last && fast->next != last) // WIP!!!!!!!!!
+        {
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        return slow;
+    }
+
+    void merge(ListNode<T>* left, ListNode<T>* mid, ListNode<T>* right)
+    {
+        SLL<T> L, R;
+        ListNode<T>* start = left, * middle = mid, * end = right;
+        while (start != middle)
+        {
+            L.insert(start);
+            start = start->next;
+        }
+        L.insert(middle);
+        while (middle != end)
+        {
+            R.insert(middle);
+            middle = middle->next;
+        }
+        R.insert(middle);
+
+        ListNode<T>* tmp = nullptr;
+        start = L.get();
+        end = R.get();
+        
+        while (start && end && left)
+        {
+            tmp = left->next;
+            delete left;
+            left = (start->val < end->val ? new ListNode<T>(start->val, tmp) : new ListNode<T>(start->val, tmp));
+            left = left->next;
+        }
+        while (start && left)
+        {
+            tmp = left->next;
+            delete left;
+            left = new ListNode<T>(start->val, tmp);
+            start = start->next;
+        }
+        while (end && left)
+        {
+            tmp = left->next;
+            delete left;
+            left = new ListNode<T>(end->val, tmp);
+            end = end->next;
+        }
+    }
+
+    void mergeSortHelper(ListNode<T>* left, ListNode<T>* right)
+    {
+        if (left != right)
+        {
+            auto mid = midpoint(left, right);
+
+            mergeSortHelper(left, mid);
+            mergeSortHelper(mid->next, right);
+
+            merge(left, mid, right);
+        }
     }
 
     void mergeSort()
     {
+        ListNode<T>* right = head;
 
+        while (right && right->next)
+            right = right->next;
+
+        mergeSortHelper(head, right);
     }
 };
 
 int main()
 {
-    SLL<int> shorter;
+    /*SLL<int> shorter;
     SLL<int> longer;
     SLL<int> head;
 
-    for (int i = 25, j = 7, k = 5; i >= 0; i--, j--, k--)
+    for (int i = 9, j = 7, k = 5; i >= 0; i--, j--, k--)
     {
         if (k >= 0)
             shorter.insert(k);
@@ -254,15 +334,17 @@ int main()
     halves.first.print();
     std::cout << '\n';
     halves.second.print();
+    std::cout << '\n';
 
     longer.insertionSort();
     std::cout << '\n';
     longer.print();
+    std::cout << '\n';*/
 
-   /* SLL<int> half1 = halves.first;
-    SLL<int> half2 = halves.second;
-    half1.print();
-    std::cout << '\n';
-    half2.print();*/
+    SLL<int> newSLL{6, 4, 0, 7, 12, 1, 0, 7};
+    //newSLL.insertionSort();
+    newSLL.mergeSort();
+    newSLL.print();
+       
 
 }
