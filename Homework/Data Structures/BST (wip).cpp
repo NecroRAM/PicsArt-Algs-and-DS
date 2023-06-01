@@ -1,16 +1,16 @@
 #include <iostream>
 #include <string>
 
-unsigned int hash_func_1a(std::string s)
-{
-	uint32_t hash = 2166136261;
-	for (char c : s)
-	{
-		hash ^= c;
-		hash *= 167777613;
-	}
-	return hash;
-}
+//unsigned int hash_func_1a(std::string s)
+//{
+//	uint32_t hash = 2166136261;
+//	for (char c : s)
+//	{
+//		hash ^= c;
+//		hash *= 167777613;
+//	}
+//	return hash;
+//}
 
 template <typename T>
 struct TreeNode
@@ -49,10 +49,26 @@ public:
 		}
 		return root;
 	}
+
+	TreeNode* insert(T val)
+	{
+		auto cur = root;
+		while (cur and (cur->left or cur->right))
+		{
+			if (val < cur->val)
+				cur = cur->left;
+			if (val >= cur->val)
+				cur = cur->right;
+		}
+		if (val < cur->val)
+			cur->left = new TreeNode(val);
+		else
+			cur->right = new TreeNode(val);
+		return (cur->left ? cur->left : cur->right);
+	}
 };
 
 int main()
 {
-	/*std::string s = "asjfhshl";
-	std::cout << hash_func_1a(s);*/
+	
 }
