@@ -22,28 +22,28 @@ void insertionSort(std::vector<int>& v)
 	}
 }
 
-int main()
-{
-	std::vector<int> v;
-
-	//get random number
-	std::random_device dev;
-	std::mt19937 rng(dev());
-	std::uniform_int_distribution<int> dist(0, 9);
-	//std::cout << dist(rng) << '\n';
-
-	//fill vec with random numbers
-	for (int i = 0; i <= 9; ++i)
-		v.push_back(dist(rng));
-
-	//print for debugging
-	std::cout << "Vector generated:\n";
-	for (int i = 0; i < v.size(); ++i)
-		std::cout << v[i] << ' ';	
-	
-	insertionSort(v);
-
-	std::cout << "\n\nVector sorted:\n";
-	for (int i = 0; i < v.size(); ++i)
-		std::cout << v[i] << ' ';
-}
+//int main()
+//{
+//	std::vector<int> v;
+//
+//	//get random number
+//	std::random_device dev;
+//	std::mt19937 rng(dev());
+//	std::uniform_int_distribution<int> dist(0, 9);
+//	//std::cout << dist(rng) << '\n';
+//
+//	//fill vec with random numbers
+//	for (int i = 0; i <= 9; ++i)
+//		v.push_back(dist(rng));
+//
+//	//print for debugging
+//	std::cout << "Vector generated:\n";
+//	for (int i = 0; i < v.size(); ++i)
+//		std::cout << v[i] << ' ';	
+//	
+//	insertionSort(v);
+//
+//	std::cout << "\n\nVector sorted:\n";
+//	for (int i = 0; i < v.size(); ++i)
+//		std::cout << v[i] << ' ';
+//}

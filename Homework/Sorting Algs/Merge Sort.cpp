@@ -3,80 +3,85 @@
 
 // Merge two sorted subarrays into one sorted array
 void merge(std::vector<int>& arr, int left, int mid, int right) {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
+    int n1 = mid - left + 1;  // Size of the left subarray
+    int n2 = right - mid;     // Size of the right subarray
 
-    // Create temporary arrays
-    std::vector<int> L(n1), R(n2);
+    // Create temporary arrays for the left and right subarrays
+    std::vector<int> leftArr(n1), rightArr(n2);
 
-    // Copy data to temporary arrays
+    // Copy data to the temporary arrays
     for (int i = 0; i < n1; ++i)
-        L[i] = arr[left + i];
+        leftArr[i] = arr[left + i];
     for (int j = 0; j < n2; ++j)
-        R[j] = arr[mid + 1 + j];
+        rightArr[j] = arr[mid + 1 + j];
 
-    // Merge the temporary arrays back into arr[l..r]
-    int i = 0, j = 0, k = left;
+    // Merge the temporary arrays back into arr
+    int i = 0, j = 0, k = left; // Pointers for leftArr, rightArr, and arr
+
     while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
+        if (leftArr[i] <= rightArr[j]) {
+            arr[k] = leftArr[i];
             ++i;
         }
         else {
-            arr[k] = R[j];
+            arr[k] = rightArr[j];
             ++j;
         }
         ++k;
     }
 
-    // Copy the remaining elements of L[], if there are any
+    // Copy the remaining elements of leftArr, if any
     while (i < n1) {
-        arr[k] = L[i];
+        arr[k] = leftArr[i];
         ++i;
         ++k;
     }
 
-    // Copy the remaining elements of R[], if there are any
+    // Copy the remaining elements of rightArr, if any
     while (j < n2) {
-        arr[k] = R[j];
+        arr[k] = rightArr[j];
         ++j;
         ++k;
     }
 }
 
-// Merge sort function
-void mergeSort(std::vector<int>& arr, int left, int right) {
+// Recursive function to perform Merge Sort on the array
+void mergeSortHelper(std::vector<int>& arr, int left, int right) {
     if (left < right) {
-        int mid = left + (right - left) / 2;
+        int mid = left + (right - left) / 2; // Calculate the middle index
 
-        // Sort first and second halves
-        mergeSort(arr, left, mid);
-        mergeSort(arr, mid + 1, right);
+        // Recursively sort the left and right subarrays
+        mergeSortHelper(arr, left, mid);
+        mergeSortHelper(arr, mid + 1, right);
 
-        // Merge the sorted halves
+        // Merge the sorted subarrays
         merge(arr, left, mid, right);
     }
 }
 
-// Utility function to print the array
+void mergeSort(std::vector<int>& arr)
+{
+    mergeSortHelper(arr, 0, arr.size() - 1);
+}
+// Utility function to print the elements of an array
 void printArray(const std::vector<int>& arr) {
-    int n = arr.size();
-    for (int i = 0; i < n; ++i)
-        std::cout << arr[i] << " ";
-    std::cout << "\n";
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
 }
 
-int main() {
-    std::vector<int> arr = { 12, 11, 13, 5, 6, 7 };
-    int n = arr.size();
+// int main() {
+    // std::vector<int> arr = { 6, 4, 0, 7, 12, 1, 0, 7 };
+    // int size = arr.size();
 
-    std::cout << "Original array: ";
-    printArray(arr);
+    // std::cout << "Original array: ";
+    // printArray(arr);
 
-    mergeSort(arr, 0, n - 1);
+    // mergeSort(arr);
 
-    std::cout << "Sorted array: ";
-    printArray(arr);
+    // std::cout << "Sorted array: ";
+    // printArray(arr);
 
-    return 0;
-}
+    // return 0;
+// }

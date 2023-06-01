@@ -25,36 +25,41 @@ int partition(std::vector<int>& arr, int low, int high) {
 }
 
 // Function to implement Quick Sort
-void quickSort(std::vector<int>& arr, int low, int high) {
+void quickSortHelper(std::vector<int>& arr, int low, int high) {
     if (low < high) {
         // Partition the array
         int pivotIndex = partition(arr, low, high);
 
         // Recursively sort the sub-arrays
-        quickSort(arr, low, pivotIndex - 1);
-        quickSort(arr, pivotIndex + 1, high);
+        quickSortHelper(arr, low, pivotIndex - 1);
+        quickSortHelper(arr, pivotIndex + 1, high);
     }
+}
+
+void quickSort(std::vector<int>& arr)
+{
+    quickSortHelper(arr, 0, arr.size() - 1);
 }
 
 // Function to print the array
-void printArray(const std::vector<int>& arr) {
-    for (int num : arr) {
-        std::cout << num << " ";
-    }
-    std::cout << std::endl;
-}
+//void printArray(const std::vector<int>& arr) {
+//    for (int num : arr) {
+//        std::cout << num << " ";
+//    }
+//    std::cout << std::endl;
+//}
 
 // Example usage
-int main() {
-    std::vector<int> arr = { 9, 1, 6, 3, 2, 8, 4, 7, 5 };
-
-    std::cout << "Original array: ";
-    printArray(arr);
-
-    quickSort(arr, 0, arr.size() - 1);
-
-    std::cout << "Sorted array: ";
-    printArray(arr);
-
-    return 0;
-}
+//int main() {
+//    std::vector<int> arr = { 9, 1, 6, 3, 2, 8, 4, 7, 5 };
+//
+//    std::cout << "Original array: ";
+//    printArray(arr);
+//
+//    quickSort(arr);
+//
+//    std::cout << "Sorted array: ";
+//    printArray(arr);
+//
+//    return 0;
+//}

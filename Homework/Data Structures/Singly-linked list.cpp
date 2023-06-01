@@ -6,10 +6,10 @@ template <typename T>
 class SLL
 {
 private:
-	ListNode<T>* head = nullptr;
+    ListNode<T>* head = nullptr;
 
 public:
-    SLL(const ListNode<T>* element = nullptr) 
+    SLL(const ListNode<T>* element = nullptr)
     {
         if (element)
             this->head = new ListNode<T>(element->val, nullptr);
@@ -24,7 +24,7 @@ public:
         }
     }
 
-    SLL(const SLL& other) 
+    SLL(const SLL& other)
         : head(nullptr)
     {
         if (other.head)
@@ -43,7 +43,7 @@ public:
         std::cout << "copy constructed\n";
     }
 
-    SLL(SLL&& other) noexcept 
+    SLL(SLL&& other) noexcept
         : head(other.head)
     {
         other.head = nullptr;
@@ -60,7 +60,7 @@ public:
             current = nextNode;
         }
     }
-    
+
 
     std::pair<SLL<T>, SLL<T>> split_in_half() const
     {
@@ -90,30 +90,30 @@ public:
         return std::make_pair(first, second);
     }
 
-	ListNode<T>* reverse()
-	{
-		ListNode<T>* cur = this->head;
-		ListNode<T>* prev = nullptr;
-		ListNode<T>* next = nullptr;
+    ListNode<T>* reverse()
+    {
+        ListNode<T>* cur = this->head;
+        ListNode<T>* prev = nullptr;
+        ListNode<T>* next = nullptr;
 
-		while (cur)
-		{
-			next = cur->next;
-			cur->next = prev;
-			prev = cur;
-			cur = next;
-		}
+        while (cur)
+        {
+            next = cur->next;
+            cur->next = prev;
+            prev = cur;
+            cur = next;
+        }
 
         this->head = prev;
-		return this->head;
-	}
-	
-	ListNode<T>* push_front(const T val)
-	{
-		ListNode<T>* newHead = new ListNode(val, this->head);
+        return this->head;
+    }
+
+    ListNode<T>* push_front(const T val)
+    {
+        ListNode<T>* newHead = new ListNode(val, this->head);
         this->head = newHead;
-		return head;
-	}
+        return head;
+    }
 
     ListNode<T>* get() const
     {
@@ -190,11 +190,11 @@ public:
                 delete current;
                 current = tmp;
             }
-        }        
+        }
 
         return *this;
     }
-    
+
     void insertionSort()
     {
         ListNode<T>* cur, * prev, * tmp;
@@ -225,10 +225,10 @@ public:
         }
     }
 
-    ListNode<T>* midpoint(ListNode<T>* first, ListNode<T>* last) const
+    ListNode<T>* midpoint(ListNode<T>* first) const
     {
-        ListNode<T>* slow = first, * fast = first;
-        while (fast && fast != last && fast->next != last) // WIP!!!!!!!!!
+        ListNode<T>* slow = first, * fast = first->next;
+        while (fast && fast->next)
         {
             fast = fast->next->next;
             slow = slow->next;
@@ -236,77 +236,60 @@ public:
         return slow;
     }
 
-    void merge(ListNode<T>* left, ListNode<T>* mid, ListNode<T>* right)
+    ListNode<T>* merge(ListNode<T>* left, ListNode<T>* right)
     {
-        SLL<T> L, R;
-        ListNode<T>* start = left, * middle = mid, * end = right;
-        while (start != middle)
-        {
-            L.insert(start);
-            start = start->next;
-        }
-        L.insert(middle);
-        while (middle != end)
-        {
-            R.insert(middle);
-            middle = middle->next;
-        }
-        R.insert(middle);
+        ListNode<T> dummy(0, nullptr);
+        ListNode<T>* tail = &dummy;
 
-        ListNode<T>* tmp = nullptr;
-        start = L.get();
-        end = R.get();
-        
-        while (start && end && left)
+        while (left and right)
         {
-            tmp = left->next;
-            delete left;
-            left = (start->val < end->val ? new ListNode<T>(start->val, tmp) : new ListNode<T>(start->val, tmp));
-            left = left->next;
+            if (left->val < right->val)
+            {
+                tail->next = left;
+                left = left->next;
+            }
+            else
+            {
+                tail->next = right;
+                right = right->next;
+            }
+            tail = tail->next;
         }
-        while (start && left)
+        if (right)
         {
-            tmp = left->next;
-            delete left;
-            left = new ListNode<T>(start->val, tmp);
-            start = start->next;
+            tail->next = right;
         }
-        while (end && left)
+        if (left)
         {
-            tmp = left->next;
-            delete left;
-            left = new ListNode<T>(end->val, tmp);
-            end = end->next;
+            tail->next = left;
         }
+        return dummy.next;
     }
 
-    void mergeSortHelper(ListNode<T>* left, ListNode<T>* right)
+    ListNode<T>* mergeSortHelper(ListNode<T>* start)
     {
-        if (left != right)
-        {
-            auto mid = midpoint(left, right);
+        if (!start or !start->next)
+            return start;
 
-            mergeSortHelper(left, mid);
-            mergeSortHelper(mid->next, right);
+        auto mid = midpoint(start);
+        ListNode<T>* second = mid->next;
+        mid->next = nullptr;
 
-            merge(left, mid, right);
-        }
+        ListNode<T>* left = mergeSortHelper(start);
+        ListNode<T>* right = mergeSortHelper(second);
+
+        return merge(left, right);
     }
 
     void mergeSort()
     {
-        ListNode<T>* right = head;
-
-        while (right && right->next)
-            right = right->next;
-
-        mergeSortHelper(head, right);
+        this->head = mergeSortHelper(this->head);
     }
 };
 
 int main()
 {
-    /*SLL<int> shorter;
+    SLL<int> shorter;
     SLL<int> longer;
     SLL<int> head;
 
@@ -327,7 +310,7 @@ int main()
     std::cout << '\n';
     std::cout << "longer: \n";
     longer.print();
-    
+
     std::cout << '\n';
 
     auto halves = longer.split_in_half();
@@ -339,12 +322,14 @@ int main()
     longer.insertionSort();
     std::cout << '\n';
     longer.print();
-    std::cout << '\n';*/
+    std::cout << '\n';
 
     SLL<int> newSLL{6, 4, 0, 7, 12, 1, 0, 7};
+    newSLL.print();
+    std::cout << '\n';
     //newSLL.insertionSort();
     newSLL.mergeSort();
     newSLL.print();
-       
+
 
 }
