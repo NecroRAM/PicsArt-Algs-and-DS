@@ -37,4 +37,22 @@ public:
             return isBalanced(root->left) and isBalanced(root->right);
         return false;
     }
+	
+	// alternative
+	int dfs(ListNode* root)
+	{
+		if (!node)
+			return 0;
+		int leftHeight = dfs(root->left);
+		int rightHeight = dfs(root->right);
+		if (leftHeoght == -1 or rightHeight == -1 or std::abs(leftHeight - rightHeight) > 1)
+			return -1;
+		return std::max(leftHeight, rightHeight) + 1;
+	}
+	
+	bool isBalanced(TreeNode* root) 
+    {
+        if (!root)
+            return true;
+        return dfs(root) != -1;
 };
