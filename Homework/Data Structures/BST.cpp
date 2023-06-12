@@ -1,19 +1,6 @@
 #include <iostream>
 #include <stack>
-
-template <typename T>
-struct TreeNode
-{
-	T val;
-	TreeNode* left, * right;
-
-	TreeNode(T p_val, TreeNode<T>* p_left = nullptr, TreeNode<T>* p_right = nullptr)
-		: val(p_val)
-		, left(p_left)
-		, right(p_right)
-	{
-	}
-};
+#include "D:\Downloads\Courses\Algs and Data Structs\PicsArt-Algs-and-DS\Homework\Data Structures\TreeNode.hpp"
 
 template <typename T>
 class BST
@@ -21,6 +8,24 @@ class BST
 private:
 	TreeNode<T>* m_root;
 	std::size_t m_size;
+public:
+	// Constructor
+	BST() 
+		: m_root(nullptr)
+		, m_size(0) 
+	{
+	}
+
+	// Initializer list constructor
+	BST(std::initializer_list<T> values) 
+	{
+		for (const T& val : values)
+		{
+			m_root = insert(m_root, val);
+		}
+	}
+
+	// Methods
 	TreeNode<T>* min_element(TreeNode<T>* node) const 
 	{
 		TreeNode<T>* parent = nullptr;
@@ -45,24 +50,6 @@ private:
 	{
 		std::cout << node->val << ' ';
 	}
-public:
-	// Constructor
-	BST() 
-		: m_root(nullptr)
-		, m_size(0) 
-	{
-	}
-
-	// Initializer list constructor
-	BST(std::initializer_list<T> values) 
-	{
-		for (const T& val : values)
-		{
-			m_root = insert(m_root, val);
-		}
-	}
-
-	// Methods
 	TreeNode<T>* root() const
 	{
 		if (m_root)
@@ -181,13 +168,13 @@ public:
 	{
 		if (!node)
 			return node;
-		if (p_val < node->val) // step 2
+		if (p_val < node->val)
 			node->left = remove(node->left, p_val);
-		else if (p_val > node->val) // step 1
+		else if (p_val > node->val)
 			node->right = remove(node->right, p_val);
 		else
 		{
-			if (!node->left) // step 3
+			if (!node->left)
 			{
 				TreeNode<T>* tmp = node->right;
 				delete node;
