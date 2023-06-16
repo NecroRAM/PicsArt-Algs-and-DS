@@ -294,9 +294,9 @@ public:
 				s.push(node);
 				node = node->left;
 			}
-			node = tmp = s.top();
+			tmp = s.top();
 			s.pop();
-			node = node->right;
+			node = tmp->right;
 			delete tmp;
 		}
 		m_root = nullptr;
