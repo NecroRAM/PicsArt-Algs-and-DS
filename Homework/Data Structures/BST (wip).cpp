@@ -151,7 +151,7 @@ public:
 	{
 		return m_size;
 	}
-	TreeNode<T>* insert(TreeNode<T>* node, T p_val)
+	TreeNode<T>* insertHelper(TreeNode<T>* node, T p_val)
 	{
 		if (!node) 
 		{
@@ -164,7 +164,11 @@ public:
 			node->left = insert(node->left, p_val);
 		return node;
 	}
-	TreeNode<T>* remove(TreeNode<T>* node, T p_val)
+	TreeNode<T>* insert(T p_val)
+	{
+		return insertHelper(this->m_root, p_val);
+	}
+	TreeNode<T>* removeHelper(TreeNode<T>* node, T p_val)
 	{
 		if (!node)
 			return node;
@@ -193,6 +197,10 @@ public:
 			node->right = remove(node->right, tmp->val);
 		}
 		return node;
+	}
+	void remove(T p_val)
+	{
+		removeHelper(this->m_root, p_val);
 	}
 	void clear()
 	{
@@ -228,7 +236,7 @@ int main()
 	std::cout << bst.size();
 	std::cout << '\n';
 	std::cout << "Remove 3:\n";
-	bst.remove(bst.root(), 3);
+	bst.remove(3);
 	std::cout << "Iterative:\n";
 	bst.traverseIterative();
 	std::cout << '\n';
