@@ -2,7 +2,7 @@
 #include <stack>
 #include <queue>
 #include <iterator>
-#include "D:\Downloads\Courses\Algs and Data Structs\PicsArt-Algs-and-DS\Homework\Data Structures\TreeNode.hpp"
+#include "C:\Users\Aram\Documents\PicsArt-Algs-and-DS\PicsArt-Algs-and-DS\Homework\Data Structures\TreeNode.hpp"
 
 template <typename T>
 class AVL
@@ -196,7 +196,7 @@ public:
 		node->right = left;
 		return right;
 	}
-	TreeNode<T>* insert(TreeNode<T>* node, T p_val)
+	TreeNode<T>* insertHelper(TreeNode<T>* node, T p_val)
 	{
 		if (!node)
 		{
@@ -218,7 +218,7 @@ public:
 
 		if (bf > 1 and p_val < node->left->val)
 			return rightRotate(node);
-		if (bf > 1 and p_val >= node->left->val) 
+		if (bf > 1 and p_val >= node->left->val)
 		{
 			node->left = leftRotate(node->left);
 			return rightRotate(node);
@@ -231,6 +231,10 @@ public:
 			return leftRotate(node);
 		}
 		return node;
+	}
+	TreeNode<T>* insert(TreeNode<T>* node, T p_val)
+	{
+		
 	}
 	TreeNode<T>* remove(TreeNode<T>* node, T p_val)
 	{
