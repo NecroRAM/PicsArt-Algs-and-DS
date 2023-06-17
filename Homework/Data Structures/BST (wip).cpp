@@ -21,7 +21,7 @@ public:
 	{
 		for (const T& val : values)
 		{
-			m_root = insert(m_root, val);
+			m_root = insert(val);
 		}
 	}
 
@@ -159,9 +159,9 @@ public:
 			return new TreeNode<T>(p_val);
 		}
 		else if (node->val < p_val)
-			node->right = insert(node->right, p_val);
+			node->right = insertHelper(node->right, p_val);
 		else
-			node->left = insert(node->left, p_val);
+			node->left = insertHelper(node->left, p_val);
 		return node;
 	}
 	TreeNode<T>* insert(T p_val)
@@ -173,9 +173,9 @@ public:
 		if (!node)
 			return node;
 		if (p_val < node->val)
-			node->left = remove(node->left, p_val);
+			node->left = removeHelper(node->left, p_val);
 		else if (p_val > node->val)
-			node->right = remove(node->right, p_val);
+			node->right = removeHelper(node->right, p_val);
 		else
 		{
 			if (!node->left)
@@ -194,7 +194,7 @@ public:
 			}
 			TreeNode<T>* tmp = min_element(node->right);
 			node->val = tmp->val;
-			node->right = remove(node->right, tmp->val);
+			node->right = removeHelper(node->right, tmp->val);
 		}
 		return node;
 	}
