@@ -23,7 +23,7 @@ public:
 	{
 		for (const T& val : values)
 		{
-			m_root = insert(m_root, val);
+			insert(val);
 		}
 	}
 	
@@ -196,23 +196,18 @@ public:
 		node->right = left;
 		return right;
 	}
-	TreeNode<T>* insert(TreeNode<T>* node, T p_val)
+	TreeNode<T>* insertHelper(TreeNode<T>* node, T p_val)
 	{
 		if (!node)
 		{
 			++m_size;
-			if (!m_root)
-			{
-				m_root = new TreeNode<T>(p_val);
-				return m_root;
-			}
-			else
-				return new TreeNode<T>(p_val);
+			node = new TreeNode<T>(p_val);
+			return node;			
 		}
 		else if (node->val < p_val)
-			node->right = insert(node->right, p_val);
+			node->right = insertHelper(node->right, p_val);
 		else
-			node->left = insert(node->left, p_val);
+			node->left = insertHelper(node->left, p_val);
 
 		int bf = balance_factor(node);
 
@@ -231,6 +226,10 @@ public:
 			return leftRotate(node);
 		}
 		return node;
+	}
+	void insert(T p_val)
+	{
+		m_root = insertHelper(this->m_root, p_val);
 	}
 	TreeNode<T>* remove(TreeNode<T>* node, T p_val)
 	{
@@ -405,18 +404,15 @@ public:
 
 int main() 
 {
-	AVL<int> avl{ 2, 1, 4, 5, 3, 10, 9, 9 };
+	AVL<int> avl{ 2, 1, 4, 5 };
 
-	std::cout << '\n';
-	std::cout << "level1:\n";
+	std::cout << "\nlevel1:\n";
 	avl.levelOrderTraversal();
 
-	std::cout << '\n';
-	std::cout << "rec:\n";
+	std::cout << "\ntrav rec:\n";
 	avl.traverseRecursive();
-	std::cout << '\n';
 
-	std::cout << "iter:\n";
+	std::cout << "\ntrav iter:\n";
 	avl.traverseIterative();
 	std::cout << '\n';
 
@@ -424,22 +420,23 @@ int main()
 	std::cout << avl.size();
 	std::cout << '\n';
 
-	avl.remove(avl.root(), avl.min_element(avl.root()->right)->val);
-	std::cout << avl.size();
-	std::cout << '\n';
-
-	std::cout << "iter:\n";
+	std::cout << "\ntrav iter:\n";
 	avl.traverseIterative();
-	avl.clear();
+
 	std::cout << '\n';
+	std::cout << "\nlevel1:\n";
+	avl.levelOrderTraversal();
+
+	avl.clear();
+	std::cout << "\ncleared\n";
 
 	std::cout << "\nlevel2:\n";
 	avl.levelOrderTraversal();
-	avl.insert(avl.root(), 5);
-	std::cout << avl.root()->val << '\n';
+	if (avl.root())
+		std::cout << "root: " << avl.root()->val << '\n';
 
-	for (int i = 10; i < 16; ++i)
-		avl.insert(avl.root(), i);
+	for (int i = 0; i < 10; ++i)
+		avl.insert(i);
 
 	std::cout << '\n';
 	std::cout << "level3:\n";
