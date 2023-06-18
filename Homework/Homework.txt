@@ -72,3 +72,11 @@ read RB tree
 404 
 450
 501
+
+
+review questions:
+1) Post-order traversal - why cant reassign root instead of cur? 145
+
+2) AVL insert assignment mandatory?
+
+3) 1351
