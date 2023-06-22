@@ -1,8 +1,8 @@
-#include "D:\Downloads\Courses\Algs and Data Structs\PicsArt Academy\PicsArt-Algs-and-DS\Homework\Sorting Algs\Slow Sort.cpp"
-#include "D:\Downloads\Courses\Algs and Data Structs\PicsArt Academy\PicsArt-Algs-and-DS\Homework\Sorting Algs\Selection Sort.cpp"
-#include "D:\Downloads\Courses\Algs and Data Structs\PicsArt Academy\PicsArt-Algs-and-DS\Homework\Sorting Algs\Insertion Sort.cpp"
-#include "D:\Downloads\Courses\Algs and Data Structs\PicsArt Academy\PicsArt-Algs-and-DS\Homework\Sorting Algs\Merge Sort.cpp"
-#include "D:\Downloads\Courses\Algs and Data Structs\PicsArt Academy\PicsArt-Algs-and-DS\Homework\Sorting Algs\Quick Sort.cpp"
+#include "C:\Users\Aram\Documents\PicsArt-Algs-and-DS\PicsArt-Algs-and-DS\Homework\Sorting Algs\Slow Sort.cpp"
+#include "C:\Users\Aram\Documents\PicsArt-Algs-and-DS\PicsArt-Algs-and-DS\Homework\Sorting Algs\Selection Sort.cpp"
+#include "C:\Users\Aram\Documents\PicsArt-Algs-and-DS\PicsArt-Algs-and-DS\Homework\Sorting Algs\Insertion Sort.cpp"
+#include "C:\Users\Aram\Documents\PicsArt-Algs-and-DS\PicsArt-Algs-and-DS\Homework\Sorting Algs\Merge Sort.cpp"
+#include "C:\Users\Aram\Documents\PicsArt-Algs-and-DS\PicsArt-Algs-and-DS\Homework\Sorting Algs\Quick Sort.cpp"
 #include <iostream>
 #include <vector>
 #include <chrono>
@@ -83,7 +83,7 @@ void bench(std::vector<int>& v1, int n)
 
 int main()
 {
-	int n = 300;
+	int n = 200;
 	std::vector<int> v(n);
 	bench(v, n);
 }
