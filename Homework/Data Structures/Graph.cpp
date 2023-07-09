@@ -7,9 +7,17 @@ class Graph
 {
 private:
 	vector<vector<int>> adj;
-	int size;
 public:
-	void addEdge(int u, int v)
+	Graph()
+	{
+		std::cout << "graph constructed\n";
+	}
+	Graph(int size)
+		: adj(size)
+	{
+		std::cout << "graph constructed with size" << size << '\n';
+	}
+	void addEdge(unsigned const int u, unsigned const int v)
 	{
 		if (adj.size() > u)
 			adj[u].push_back(v);
@@ -34,15 +42,13 @@ public:
 	void dfs(int s, int d)
 	{
 		vector<bool> visited(adj.size());
+		visited[s] = true;
 		if (s == d)
 			return;
 		for (auto v : adj[s])
 			if (!visited[v])
-			{
-				visited[v] = true;
 				dfs(v, d);
-			}
-		visited[s] = false;
+		//visited[s] = false;
 	}
 };
 
