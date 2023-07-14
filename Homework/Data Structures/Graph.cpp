@@ -1,7 +1,10 @@
 #include <iostream>
 #include <vector>
+#include <stack>
+#include <queue>
 
 using std::vector;
+using std::stack;
 
 class Graph
 {
@@ -39,16 +42,103 @@ public:
 		if (adj.size() <= v)
 			adj.push_back(vector<int> {});
 	}
-	void dfs(int s, int d)
+	void bfs(int s)
 	{
-		vector<bool> visited(adj.size());
+		std::queue<int> q;
+		std::vector<bool> visited(adj.size(), false);
+		q.push(s);
 		visited[s] = true;
-		if (s == d)
-			return;
+
+		while (!q.empty())
+		{
+			int u = q.front();
+			q.pop();
+
+			for (int v : adj[u])
+				if (!visited[v])
+				{
+					q.push(v);
+					visited[v] = true;
+				}
+		}
+	}
+	void dfsRecHelper(vector<bool>& visited, const int s)
+	{
+		visited[s] = true;
 		for (auto v : adj[s])
 			if (!visited[v])
-				dfs(v, d);
-		//visited[s] = false;
+				dfsRecHelper(visited, v);
+	}
+	void dfsRecursive(const int s)
+	{
+		vector<bool> visited(adj.size());
+		dfsRecHelper(visited, s);
+	}
+	void dfsIterative(const int s)
+	{
+		stack<int> toVisit;
+		vector<bool> visited(adj.size());
+		int u = 0;
+
+		toVisit.push(s);
+		visited[s] = true;
+		while (toVisit.empty())
+		{
+			u = toVisit.top();
+			toVisit.pop();
+			for (int v : adj[u])
+				if (!visited[v])
+				{
+					toVisit.push(v);
+					visited[v] = true;
+				}
+		}
+	}
+	int dfsCountHelper(vector<bool>& visited, const int s, const int d)
+	{
+		if (s == d)
+			return 1;
+		for (int v : adj[s])
+			if (!visited[v])
+				dfsCountHelper(visited, v, d);
+		visited[s] = false;
+	}
+	int dfsCount(const int s, const int d)
+	{
+		vector<bool> visited(adj.size());
+		return dfsCountHelper(visited, s, d);
+	} // WIP!!!
+
+	// not sure below
+	bool dfs(std::vector<bool>& visited, std::vector<bool>& recStack, int source, int parent)
+	{
+		visited[source] = true;
+		recStack[source] = true;
+
+		for (auto neigh : adj[source])
+		{
+			if (!visited[neigh])
+			{
+				if (dfs(visited, recStack, neigh, source))
+					return true;
+			}
+			else if (neigh != parent)
+				return true;
+		}
+		recStack[source] = false;
+		return false;
+	}
+	bool isCycled()
+	{
+		std::vector<bool> visited(adj.size(), false);
+		std::vector<bool> recStack(adj.size(), false);
+
+		for (auto vertices : adj)
+			for (int v : vertices)
+				if (!visited[v])
+					if (dfs(visited, recStack, v, 0))
+						return true;
+		return false;
 	}
 };
 
