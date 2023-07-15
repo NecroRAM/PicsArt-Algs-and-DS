@@ -20,6 +20,10 @@ public:
 	{
 		std::cout << "graph constructed with size" << size << '\n';
 	}
+	Graph(std::initializer_list<std::vector<int>> list)
+		: adj(list)
+	{
+	}
 	void addEdge(unsigned const int u, unsigned const int v)
 	{
 		if (adj.size() > u)
@@ -39,7 +43,7 @@ public:
 	}
 	void addVertex(int v)
 	{
-		if (adj.size() <= v)
+		if (adj.size() <= v) // is this check needed?
 			adj.push_back(vector<int> {});
 	}
 	void bfs(int s)
@@ -140,6 +144,59 @@ public:
 						return true;
 		return false;
 	}
+	void transpose()
+	{
+		for (int i = 0; i < adj.size(); ++i)
+			for (int j = 0; j < adj[i].size(); ++j)
+			{
+				adj[adj[i][j]][j] = i;
+				adj[i][j] = -1;
+			}
+		for (auto v : adj)
+			v.erase(std::remove_if(v.begin(), v.end(), [](int n) { return n == -1; }));
+	}
+	void shortestPathBFS(std::vector<int>& visited, std::queue<int>& q, std::vector<int> res, int s, int d)
+	{
+		q.push(s);
+		visited[s] = true;
+		if (s == d)
+			return res.push_back(s);
+		s = q.front();
+;		shortestPathBFS(visited, q, res, s, d)
+		
+	}
+	std::vector<int> shortestPath(const int s, const int d)
+	{
+		if (s == d)
+			return { s };
+		std::queue<int> q;
+		std::vector<int> visited(adj.size()), res;
+		q.push(s);
+		visited[s] = true;
+		while (!q.empty())
+		{
+			int u = q.front();
+			for (auto v : adj[u])
+			{
+
+				if (!visited[v])
+				{
+
+					if (v != d);
+					{
+						q.push(v);
+						visited[v] = true;
+					}
+				}
+				else
+				{
+
+					res.push_back(v);
+				}
+			}
+		}
+		return res;
+	}
 };
 
 int main()
@@ -153,4 +210,30 @@ int main()
 	g.addEdge(5, 4);
 	g.addEdge(4, 1);
 	g.addEdge(3, 9);
+
+	Graph graph = 
+	{
+		{1, 2},         // Vertex 0 is connected to vertices 1 and 2
+		{0, 2, 3},      // Vertex 1 is connected to vertices 0, 2, and 3
+		{0, 1, 3},      // Vertex 2 is connected to vertices 0, 1, and 3
+		{1, 2, 4},      // Vertex 3 is connected to vertices 1, 2, and 4
+		{3, 5},         // Vertex 4 is connected to vertices 3 and 5
+		{4}             // Vertex 5 is connected to vertex 4
+	};
+
+	int source = 0;
+	int destination = 4;
+
+	std::vector<int> path = graph.shortestPath(source, destination);
+
+	if (path.empty()) {
+		std::cout << "No path exists between " << source << " and " << destination << std::endl;
+	}
+	else {
+		std::cout << "Shortest path between " << source << " and " << destination << ": ";
+		for (int vertex : path) {
+			std::cout << vertex << " ";
+		}
+		std::cout << std::endl;
+	}
 }
