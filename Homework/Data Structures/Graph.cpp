@@ -24,6 +24,8 @@ public:
 		: adj(list)
 	{
 	}
+
+	// Methods
 	void addEdge(unsigned const int u, unsigned const int v)
 	{
 		if (adj.size() > u)
@@ -41,11 +43,13 @@ public:
 			adj[v].push_back(u);
 		}
 	}
+
 	void addVertex(int v)
 	{
 		if (adj.size() <= v) // is this check needed?
 			adj.push_back(vector<int> {});
 	}
+
 	void bfs(int s)
 	{
 		std::queue<int> q;
@@ -66,6 +70,32 @@ public:
 				}
 		}
 	}
+
+	int countOfNodesAtAGivenLevel(int s, int level)
+	{
+		std::queue<int> q;
+		std::vector<bool> visited(adj.size(), false);
+		int count = 0;
+		q.push(s);
+		visited[s] = true;
+		int u = 0;
+		while (!q.empty())
+		{
+			u = q.front();
+
+			for (int v : adj[u])
+				if (!visited[v])
+				{
+					q.push(v);
+					visited[v] = true;					
+				}
+
+			q.pop();
+			if (level-- == 1)
+				return q.size();
+		}
+	}
+
 	void dfsRecHelper(vector<bool>& visited, const int s)
 	{
 		visited[s] = true;
@@ -73,11 +103,13 @@ public:
 			if (!visited[v])
 				dfsRecHelper(visited, v);
 	}
+
 	void dfsRecursive(const int s)
 	{
 		vector<bool> visited(adj.size());
 		dfsRecHelper(visited, s);
 	}
+
 	void dfsIterative(const int s)
 	{
 		stack<int> toVisit;
@@ -107,6 +139,7 @@ public:
 				dfsCountHelper(visited, v, d);
 		visited[s] = false;
 	}
+
 	int dfsCount(const int s, const int d)
 	{
 		vector<bool> visited(adj.size());
@@ -132,6 +165,7 @@ public:
 		recStack[source] = false;
 		return false;
 	}
+
 	bool isCycled()
 	{
 		std::vector<bool> visited(adj.size(), false);
@@ -144,6 +178,7 @@ public:
 						return true;
 		return false;
 	}
+
 	void transpose()
 	{
 		for (int i = 0; i < adj.size(); ++i)
@@ -155,6 +190,7 @@ public:
 		for (auto v : adj)
 			v.erase(std::remove_if(v.begin(), v.end(), [](int n) { return n == -1; }));
 	}
+
 	void shortestPathBFS(std::vector<int>& visited, std::queue<int>& q, std::vector<int> res, int s, int d)
 	{
 		q.push(s);
@@ -162,69 +198,92 @@ public:
 		if (s == d)
 			return res.push_back(s);
 		s = q.front();
-;		shortestPathBFS(visited, q, res, s, d)
-		
+		shortestPathBFS(visited, q, res, s, d);
 	}
-	std::vector<int> shortestPath(const int s, const int d)
+
+	std::vector<int> shortestPath(const int s, int d)
 	{
+		if (d > adj.size() - 1)
+			return {};
 		if (s == d)
 			return { s };
+
 		std::queue<int> q;
-		std::vector<int> visited(adj.size()), res;
+		std::vector<int> res, parent(adj.size(), -1);
+		std::vector<bool> visited(adj.size(), false);
+
 		q.push(s);
-		visited[s] = true;
 		while (!q.empty())
 		{
 			int u = q.front();
 			for (auto v : adj[u])
 			{
-
 				if (!visited[v])
 				{
-
-					if (v != d);
-					{
-						q.push(v);
-						visited[v] = true;
-					}
-				}
-				else
-				{
-
-					res.push_back(v);
+					parent[v] = u;
+					if (v == d)
+						break;
+					visited[v] = true;
+					q.push(v);
 				}
 			}
+			q.pop();
 		}
+		
+		while (parent[d] != s)
+		{
+			res.push_back(d);
+			d = parent[d];
+		} 
+		res.push_back(d);
+		d = parent[d];
+		res.push_back(d);
+
+		std::reverse(res.begin(), res.end());
 		return res;
 	}
 };
 
+//Required functionality:
+// 
+//addEdge(u, v) V
+//addVertex(u) V
+//dfs : iterative, recursive V
+//dfs_extraCase
+//bfs V
+//bfs_extraCase
+//transpose V
+//shortedPathinUnweightedGraph V
+//countOfNodesAtAGivenLevel
+//allPossiblePathsBetween2Vertices
+
 int main()
 {
-	Graph g;
-	g.addEdge(0, 1);
-	g.addEdge(0, 2);
-	g.addEdge(1, 3);
-	g.addEdge(1, 7);
-	g.addEdge(2, 6);
-	g.addEdge(5, 4);
-	g.addEdge(4, 1);
-	g.addEdge(3, 9);
+	Graph graph1;
+	graph1.addEdge(0, 1);
+	graph1.addEdge(0, 2);
+	graph1.addEdge(1, 3);
+	graph1.addEdge(1, 7);
+	graph1.addEdge(2, 6);
+	graph1.addEdge(5, 4);
+	graph1.addEdge(4, 1);
+	graph1.addEdge(3, 9);
 
-	Graph graph = 
+	Graph graph2 = 
 	{
 		{1, 2},         // Vertex 0 is connected to vertices 1 and 2
-		{0, 2, 3},      // Vertex 1 is connected to vertices 0, 2, and 3
+		{0, 2, 3, 4, 5},      // Vertex 1 is connected to vertices 0, 2, and 3
 		{0, 1, 3},      // Vertex 2 is connected to vertices 0, 1, and 3
 		{1, 2, 4},      // Vertex 3 is connected to vertices 1, 2, and 4
-		{3, 5},         // Vertex 4 is connected to vertices 3 and 5
-		{4}             // Vertex 5 is connected to vertex 4
+		{1, 3, 5},         // Vertex 4 is connected to vertices 3 and 5
+		{1, 4}             // Vertex 5 is connected to vertex 4
 	};
 
-	int source = 0;
+	std::cout << graph2.countOfNodesAtAGivenLevel(0, 2);
+	/*int source = 0;
 	int destination = 4;
 
-	std::vector<int> path = graph.shortestPath(source, destination);
+	std::vector<int> path = graph2.shortestPath(source, destination);
 
 	if (path.empty()) {
 		std::cout << "No path exists between " << source << " and " << destination << std::endl;
@@ -235,5 +294,5 @@ int main()
 			std::cout << vertex << " ";
 		}
 		std::cout << std::endl;
-	}
+	}*/
 }
