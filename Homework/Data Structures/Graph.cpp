@@ -39,6 +39,11 @@ public:
 		if (adj.size() <= v)
 			adj.push_back(vector<int> {});
 	}
+	void dfsRecursive(unsigned const int s)
+	{
+		vector<bool> visited(adj.size());
+	}
+
 	void dfs(int s, int d)
 	{
 		vector<bool> visited(adj.size());
