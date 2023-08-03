@@ -191,14 +191,14 @@ public:
 			v.erase(std::remove_if(v.begin(), v.end(), [](int n) { return n == -1; }));
 	}
 
-	void shortestPathBFS(std::vector<int>& visited, std::queue<int>& q, std::vector<int> res, int s, int d)
+	void shortestPathDFS(std::vector<int>& visited, std::queue<int>& q, std::vector<int> res, int s, int d)
 	{
 		q.push(s);
 		visited[s] = true;
 		if (s == d)
 			return res.push_back(s);
 		s = q.front();
-		shortestPathBFS(visited, q, res, s, d);
+		shortestPathDFS(visited, q, res, s, d);
 	}
 
 	std::vector<int> shortestPath(const int s, int d)
