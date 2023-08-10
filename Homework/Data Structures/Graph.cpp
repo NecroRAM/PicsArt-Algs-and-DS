@@ -254,7 +254,7 @@ public:
 //bfs_extraCase
 //transpose V
 //shortedPathinUnweightedGraph V
-//countOfNodesAtAGivenLevel
+//countOfNodesAtAGivenLevel v
 //allPossiblePathsBetween2Vertices
 
 int main()
@@ -279,7 +279,7 @@ int main()
 		{1, 4}             // Vertex 5 is connected to vertex 4
 	};
 
-	std::cout << graph2.countOfNodesAtAGivenLevel(0, 2);
+	std::cout << graph2.countOfNodesAtAGivenLevel(0, 1);
 	/*int source = 0;
 	int destination = 4;
 
