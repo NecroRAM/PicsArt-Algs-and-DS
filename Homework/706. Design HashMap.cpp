@@ -28,7 +28,7 @@ private:
     std::vector<std::vector<entry>> hm;
     const double threshold = 0.75;
     int load = 0;
-    unsigned int hash(int value) 
+    unsigned int hash(int value, std::size_t size) 
     {
         const unsigned int FNV_OFFSET_BASIS = 2166136261;
         const unsigned int FNV_PRIME = 16777619;
@@ -41,20 +41,20 @@ private:
             hash ^= data[i];
             hash *= FNV_PRIME;
         }
-        return hash % hm.size();
+        return hash % size;
     }
     auto contains(const int key)
     {
-        unsigned const int h = hash(key);
+        unsigned const int h = hash(key, hm.size());
         return std::find_if(hm[h].begin(), hm[h].end(), [&](entry el) { return el.isSet; });
     }
     void rehash()
     {
         std::vector<std::vector<entry>> nhm(hm.size() * 2);
         for (auto& el : hm)
-            for (auto& entry : el)
-                nhm.put(entry._key, entry._value);        
-        hm = std::move(nhm); // should be a new matrix or a new hashmap?
+            for (auto& en : el)
+                nhm[hash(en._key, nhm.size())].emplace_back(entry(en._key, en._value)).isSet = true;
+        hm = std::move(nhm);
     }
 public:
     MyHashMap(int size = 11)
@@ -74,11 +74,11 @@ public:
     void put(int key, int value) 
     {
         auto it = this->contains(key);
-        if (it != hm[hash(key)].end())
+        if (it != hm[hash(key, hm.size())].end())
             it->_value = value;
         else
         {
-            hm[hash(key)].emplace_back(entry(key,value)).isSet = true;
+            hm[hash(key, hm.size())].emplace_back(entry(key, value)).isSet = true;
             ++load;
 
             if (load / hm.size() > threshold)
@@ -88,14 +88,14 @@ public:
     
     int get(int key) 
     {
-        return (this->contains(key) != hm[hash(key)].end() ? this->contains(key)->_value : -1);
+        return (this->contains(key) != hm[hash(key, hm.size())].end() ? this->contains(key)->_value : -1);
     }
     
     void remove(int key) 
     {
         auto it = this->contains(key);
 
-        if (it != hm[hash(key)].end())
+        if (it != hm[hash(key, hm.size())].end())
             it->isSet = false;
     }
 };
