@@ -2,6 +2,7 @@
 #include <string>
 #include <unordered_map>
 #include <queue>
+#include <functional>
 
 class Node
 {
@@ -20,48 +21,26 @@ public:
 class HuffmanTree
 {
 private:
-	bool comp(const Node* left, const Node* right)
+	std::unordered_map<char, std::string> huffman;
+	Node* root;
+
+	std::function<bool(const Node*, const Node*)> comparator = [](const Node* left, const Node* right) -> bool
 	{
 		return left->val > right->val;
-	}
+	};
 
-	std::unordered_map<char, std::string> huffman;
-public:
-	HuffmanTree(const std::string& text)
-	{
-		buildHuffmanTree(text);
-	}
-
-	void encode(Node* node, std::string& s, std::unordered_map<char, std::string>& huffman)
-	{
-		if (!node)
-			return;
-		if (!node->left and !node->right)
-			huffman[node->val] = s;
-		encode(node->left, s + '0', huffman);
-		encode(node->right, s + '1', huffman);
-	}
-
-	void decode(Node* node, const int index, std::string& decoded)
-	{
-		if (!node)
-			return;
-		if (!node->left and !node->right)
-			decoded.push_back(node->val);
-		if (decoded[index] == '0')
-			decode(node->left, index + 1, decoded);
-		else
-			decode(node->right, index + 1, decoded);
-	}
-
-	HuffmanTree buildHuffmanTree(const std::string& text)
+	void buildHuffmanTree(const std::string& text)
 	{
 		std::unordered_map<char, int> freq;
+
 		for (char c : text)
 			++freq[c];
-		std::priority_queue<Node*, std::vector<Node*>, decltype(comp)> pq;
+
+		std::priority_queue<Node*, std::vector<Node*>, decltype(comparator)> pq;
+
 		for (auto [c, fr] : freq)
 			pq.push(new Node(c, fr));
+
 		while (pq.size() != 1)
 		{
 			Node* left = pq.top();
@@ -71,13 +50,60 @@ public:
 
 			pq.push(new Node('$', left->fr + right->fr, left, right));
 		}
-		Node* root = pq.top();
+
+		root = pq.top();
+		encode(root, "");
 	}
-		encode(root, "", huffman);
+
+	void encode(Node* node, std::string&& s)
+	{
+		if (!node)
+			return;
+		if (!node->left and !node->right)
+			huffman[node->val] = s;
+		encode(node->left, s + '0');
+		encode(node->right, s + '1');
+	}
+
+	void decodeHelper(const Node* node, const int index, std::string& decoded)
+	{
+		if (!node)
+			return;
+		if (!node->left and !node->right)
+		{
+			decoded.push_back(node->val);
+			return;
+		}
+		if (decoded[index] == '0')
+			decodeHelper(node->left, index + 1, decoded);
+		else
+			decodeHelper(node->right, index + 1, decoded);
+	}
+
+public:
+	HuffmanTree(const std::string& text)
+	{
+		buildHuffmanTree(text);
+	}	
+
+	std::string decode()
+	{
+		std::string res = "";
+		decodeHelper(root, 0, res);
+		return res;
+	}
+
+	void print()
+	{
+		for (auto& [c, s] : huffman)
+			std::cout << c << ": " << s << '\n';
+	}
 };
 
 int main()
 {
 	std::string text = "abacdaaccbdef";
-	auto ht = HuffmanTree(text);
+	HuffmanTree ht(text);
+	ht.print();
+	std::cout << ht.decode();
 }
