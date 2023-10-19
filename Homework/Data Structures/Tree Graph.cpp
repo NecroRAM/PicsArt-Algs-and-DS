@@ -5,26 +5,35 @@
 
 struct TreeNode
 {
-	int id;
-	TreeNode* parent;
-	std::vector<TreeNode*> arr;
+	int id_;
+	TreeNode* parent_;
+	std::vector<TreeNode*> arr_;
+
+	TreeNode(int v, TreeNode* node)
+		: id_(v)
+		, parent_(node)
+	{
+	}
+	TreeNode()
+	{
+	}
 };
 
-void buildTree(std::vector<int>& graph, TreeNode* node, TreeNode* parent)
+void buildTree(std::vector<std::vector<int>>& graph, TreeNode* node, TreeNode* parent)
 {
-	for (int v : graph[node->id])
+	for (int v : graph[node->id_])
 	{
-		if (parent and v == parent->id)
+		if (parent and v == parent->id_)
 			continue;
-		TreeNode* child = new TreeNode(v, node, {});
-		node->arr.push_back(child);
+		TreeNode* child = new TreeNode(v, node);
+		node->arr_.push_back(child);
 		buildTree(graph, child, node);
 	}
 }
 
-rootTree(graph, root)
+TreeNode* rootTree(std::vector<std::vector<int>>& graph, TreeNode* root)
 {
-	TreeNode* root = new TreeNode(...);
+	TreeNode* root = new TreeNode;
 	buildTree(graph, root, nullptr);
 	return root;
 }
@@ -32,11 +41,11 @@ rootTree(graph, root)
 //1) find inDegree
 //2) impl Kahn's algorithm principle
 
-bool areIsom(g1, g2)
+bool areIsom(std::vector<std::vector<int>>& g1, std::vector<std::vector<int>>& g2)
 {
-	tC1 = getCenters(g1);
-	tC2 = getCenters(g2);
-	root1 = buildTree(g1, tC1[0], nullptr);
+	std::vector<TreeNode*>& tC1 = getCenters(g1);
+	std::vector<TreeNode*>& tC2 = getCenters(g2);
+	TreeNode* root1 = buildTree(g1, tC1[0], nullptr);
 	std::string s1 = encode(root1);
 	for (int id : tC2)
 	{

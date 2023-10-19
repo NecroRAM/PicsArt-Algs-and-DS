@@ -10,12 +10,17 @@ public:
 	char val;
 	int fr;
 	Node* left, * right;
-	Node(const char c, const int _fr, Node* _left = nullptr, Node* _right = nullptr)
+	Node(char c, int _fr, Node* _left = nullptr, Node* _right = nullptr)
 		: val(c)
 		, fr(_fr)
 		, left(_left)
 		, right(_right)
 	{}
+};
+
+std::function<bool(const Node*, const Node*)> comparator = [](const Node* left, const Node* right) -> bool
+{
+	return left->fr > right->fr;
 };
 
 class HuffmanTree
@@ -24,10 +29,6 @@ private:
 	std::unordered_map<char, std::string> huffman;
 	Node* root;
 
-	std::function<bool(const Node*, const Node*)> comparator = [](const Node* left, const Node* right) -> bool
-	{
-		return left->val > right->val;
-	};
 
 	void buildHuffmanTree(const std::string& text)
 	{
@@ -36,7 +37,7 @@ private:
 		for (char c : text)
 			++freq[c];
 
-		std::priority_queue<Node*, std::vector<Node*>, decltype(comparator)> pq;
+		std::priority_queue<Node*, std::vector<Node*>, decltype(&comparator)> pq;
 
 		for (auto [c, fr] : freq)
 			pq.push(new Node(c, fr));
@@ -55,17 +56,17 @@ private:
 		encode(root, "");
 	}
 
-	void encode(Node* node, std::string&& s)
+	void encode(Node* node, std::string s)
 	{
 		if (!node)
 			return;
 		if (!node->left and !node->right)
 			huffman[node->val] = s;
-		encode(node->left, s + '0');
-		encode(node->right, s + '1');
+		encode(node->left, s + "0");
+		encode(node->right, s + "1");
 	}
 
-	void decodeHelper(const Node* node, const int index, std::string& decoded)
+	void decodeHelper(const Node* node, int& index, std::string& encoded, std::string& decoded)
 	{
 		if (!node)
 			return;
@@ -74,10 +75,11 @@ private:
 			decoded.push_back(node->val);
 			return;
 		}
+		++index;
 		if (decoded[index] == '0')
-			decodeHelper(node->left, index + 1, decoded);
+			decodeHelper(node->left, index, encoded, decoded);
 		else
-			decodeHelper(node->right, index + 1, decoded);
+			decodeHelper(node->right, index, encoded, decoded);
 	}
 
 public:
@@ -88,8 +90,11 @@ public:
 
 	std::string decode()
 	{
-		std::string res = "";
-		decodeHelper(root, 0, res);
+		std::string res = "", enc = "";
+		int index = -1;
+		for (const auto& [c, s] : huffman)
+			enc.append(s);
+		decodeHelper(root, index, enc, res);
 		return res;
 	}
 
@@ -104,6 +109,7 @@ int main()
 {
 	std::string text = "abacdaaccbdef";
 	HuffmanTree ht(text);
+
 	ht.print();
 	std::cout << ht.decode();
 }
