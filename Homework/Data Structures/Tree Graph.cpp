@@ -24,7 +24,7 @@ void buildTree(std::vector<std::vector<int>>& graph, TreeNode* node, TreeNode* p
 	for (int v : graph[node->id_])
 	{
 		if (parent and v == parent->id_)
-			continue;
+			continue; 
 		TreeNode* child = new TreeNode(v, node);
 		node->arr_.push_back(child);
 		buildTree(graph, child, node);
